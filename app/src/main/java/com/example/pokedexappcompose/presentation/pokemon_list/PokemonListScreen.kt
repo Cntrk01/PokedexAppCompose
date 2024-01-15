@@ -1,15 +1,14 @@
 package com.example.pokedexappcompose.presentation.pokemon_list
 
-import android.widget.Space
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -19,6 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pokedexappcompose.R
+import com.example.pokedexappcompose.data.PokemonListEntry
+import com.example.pokedexappcompose.presentation.pokemon_list.background_image_color.PokemonEntry
 
 @Composable
 fun PokemonListScreen(
@@ -39,12 +40,41 @@ fun PokemonListScreen(
             )
 
             PokemonSearch(
-                modifier = Modifier.fillMaxWidth().padding(16.dp, top = 20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, top = 20.dp),
                 hint = "Search...",
                 onSearch = {
 
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun PokemonRow(
+    rowIndex: Int,
+    entries: List<PokemonListEntry>,
+    navController: NavController
+) {
+    Column {
+        Row {
+            PokemonEntry(
+                entry = entries[rowIndex * 2],
+                navController = navController,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+
+            if (entries.size>=rowIndex*2+2){
+                PokemonEntry(
+                    entry = entries[rowIndex*2+1],
+                    navController = navController,
+                    modifier = Modifier.weight(1f))
+            }else{
+                Spacer(modifier = Modifier.weight(1f))
+            }
         }
     }
 }
