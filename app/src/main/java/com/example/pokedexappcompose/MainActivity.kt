@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import com.example.pokedexappcompose.common.Constants.DOMINANT_COLOR
 import com.example.pokedexappcompose.common.Constants.POKEMON_NAME
 import com.example.pokedexappcompose.presentation.Screen
+import com.example.pokedexappcompose.presentation.pokemon_list.PokemonListScreen
 import com.example.pokedexappcompose.ui.theme.PokedexAppComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.PokemonListScreen.route
                     ) {
                         composable(route = Screen.PokemonListScreen.route) {
-
+                            PokemonListScreen(navController = navController)
                         }
 
                         composable(route = Screen.PokemonDetailScreen.route + "/${DOMINANT_COLOR}" + "/${POKEMON_NAME}",
