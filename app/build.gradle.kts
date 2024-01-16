@@ -71,20 +71,19 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-
     implementation ("androidx.compose.material:material-icons-core:1.5.4")
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05")
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
 
-    implementation ("com.google.dagger:hilt-android:2.44")
-    kapt ("com.google.dagger:hilt-android-compiler:2.44")
-    kapt ("androidx.hilt:hilt-compiler:1.0.0")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation ("androidx.hilt:hilt-work:1.0.0")
-    implementation ("androidx.work:work-runtime-ktx:2.8.1")
+    implementation ("com.google.dagger:hilt-android:2.45")
+    kapt ("com.google.dagger:hilt-android-compiler:2.48")
+    kapt ("androidx.hilt:hilt-compiler:1.1.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation ("androidx.hilt:hilt-work:1.1.0")
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    implementation ("androidx.navigation:navigation-compose:2.6.0-rc01")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation ("androidx.navigation:navigation-compose:2.7.6")
 
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -93,18 +92,20 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     // Coroutines
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation ("androidx.activity:activity-ktx:1.8.2")
 
     // Coroutine Lifecycle Scopes
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-
-    //implementation ("com.android.support.palette-v7:28.0.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     implementation ("com.jakewharton.timber:timber:4.7.1")
 
     // Coil
-    implementation ("io.coil-kt:coil:1.1.1")
-    implementation ("com.google.accompanist:accompanist-coil:0.7.0")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+
 }
