@@ -1,55 +1,40 @@
 package com.example.pokedexappcompose.presentation.pokemon_list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.pokedexappcompose.R
-import com.example.pokedexappcompose.data.PokemonListEntry
 import com.example.pokedexappcompose.presentation.pokemon_list.background_image_color.PokemonEntry
 import com.example.pokedexappcompose.presentation.pokemon_list.viewmodel.PokemonListViewModel
 
 @Composable
 fun PokemonListScreen(
     navController: NavController,
+    viewModel: PokemonListViewModel = hiltViewModel()
 ) {
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -71,7 +56,7 @@ fun PokemonListScreen(
                     .padding(16.dp, top = 20.dp),
                 hint = "Search...",
                 onSearch = {
-
+                    viewModel.searchPokemonList(it)
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -84,20 +69,23 @@ fun PokemonListScreen(
 fun PokemonList(
     navController: NavController,
     viewModel: PokemonListViewModel = hiltViewModel()
-){
+) {
     val state by viewModel.state.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize()){
-        if (state.pokemonList.isNotEmpty()){
-
-            LazyVerticalStaggeredGrid(columns = StaggeredGridCells.Fixed(2), contentPadding = PaddingValues(16.dp)){
-                val itemCount=if (state.pokemonList.size%2==0){
-                    state.pokemonList.size/2
-                }else{
-                    state.pokemonList.size/2+1
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (state.pokemonList.isNotEmpty()) {
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Fixed(2),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                val itemCount = if (state.pokemonList.size % 2 == 0) {
+                    state.pokemonList.size / 2
+                } else {
+                    state.pokemonList.size / 2 + 1
                 }
+
                 items(itemCount) { pokemonEntry ->
-                    if (pokemonEntry >= itemCount-1&& !state.endReached && !state.isLoading){
+                    if (pokemonEntry >= itemCount - 1 && !state.endReached && !state.isLoading && !state.isSearching) {
                         viewModel.loadPokemonPaging()
                     }
                     PokemonEntry(
@@ -111,8 +99,7 @@ fun PokemonList(
             }
         }
 
-        // Hata durumu gösterimi
-        if (state.error.isNotBlank()){
+        if (state.error.isNotBlank()) {
             Text(
                 text = state.error,
                 color = MaterialTheme.colorScheme.error,
@@ -124,8 +111,7 @@ fun PokemonList(
             )
         }
 
-        // Yükleniyor durumu gösterimi
-        if (state.isLoading){
+        if (state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }

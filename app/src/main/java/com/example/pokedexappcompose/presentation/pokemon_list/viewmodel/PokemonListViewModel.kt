@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,9 +16,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import com.example.pokedexappcompose.common.Response
 import com.example.pokedexappcompose.data.PokemonListEntry
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import java.util.Locale
 import javax.inject.Inject
 
@@ -34,6 +37,60 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
         loadPokemonPaging()
     }
 
+    fun searchPokemonList(query: String) = viewModelScope.launch {
+        _state.value.apply {
+            val listToSearch = if (isSearchStarting) {
+                pokemonList
+            } else {
+                cachedPokemonList
+            }
+
+            if (query.isEmpty()) {
+                _state.update { pokemonState ->
+                    pokemonState.copy(
+                        pokemonList = cachedPokemonList,
+                        isSearching = false,
+                        isSearchStarting = true,
+                        isLoading=false
+                    )
+                }
+                return@launch
+            }
+            val result = listToSearch.filter {
+                it.pokemonName.contains(query.trim(), ignoreCase = true) ||
+                        it.number.toString() == query.trim()
+            }
+            if (isSearchStarting) {
+               _state.update {
+                   it.copy(
+                       cachedPokemonList = pokemonList,
+                       isSearchStarting = false,
+                       isLoading=false
+                   )
+               }
+            }
+            if (result.isEmpty()){
+                _state.update {
+                    it.copy(
+                        pokemonList = emptyList(),
+                        isSearching = false,
+                        isLoading=false,
+                        error = "Pokemon Is Not Found..."
+                    )
+                }
+            }else{
+                _state.update {
+                    it.copy(
+                        pokemonList = result,
+                        isSearching = true,
+                        isLoading=false,
+                        error = ""
+                    )
+                }
+            }
+        }
+    }
+
     fun loadPokemonPaging() = viewModelScope.launch {
         pokemonListUseCase.invoke(limit = PAGE_SIZE, offset = currentPage * PAGE_SIZE)
             .collectLatest { response ->
@@ -41,11 +98,14 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                     is Response.Loading -> {
                         _state.value.isLoading = true
                     }
+
                     is Response.Error -> {
                         _state.value.error = response.message.toString()
                     }
+
                     else -> {
-                        _state.value.endReached = currentPage * PAGE_SIZE >= response.data!!.count
+                        _state.value.endReached =
+                            currentPage * PAGE_SIZE >= response.data!!.count
 
                         val pokemonEntries = response.data.results.map { result ->
                             //Burada apide sonu / ile bittiği için endWith ile kontrol edip siliyoruz.Ve son karakteri tekrar alıp digit mi diye kontrol ediyoruz.!
@@ -55,7 +115,8 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                             } else {
                                 result.url.takeLastWhile { it.isDigit() }
                             }
-                            val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
+                            val url =
+                                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
                             //capitalize ile ilk harfini büyük yapıyoruz.
                             PokemonListEntry(
                                 pokemonName = result.name.capitalize(Locale.ROOT),
