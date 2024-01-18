@@ -17,8 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.pokedexappcompose.common.Constants.DOMINANT_COLOR
 import com.example.pokedexappcompose.common.Constants.POKEMON_NAME
-import com.example.pokedexappcompose.presentation.Screen
-import com.example.pokedexappcompose.presentation.pokemon_list.PokemonListScreen
+import com.example.pokedexappcompose.presentation.pokemon_detail.screen.PokemonDetailScreen
+import com.example.pokedexappcompose.presentation.pokemon_list.screen.pokemon_list_screen.PokemonListScreen
 import com.example.pokedexappcompose.ui.theme.PokedexAppComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,26 +39,29 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.PokemonListScreen.route
                     ) {
                         composable(route = Screen.PokemonListScreen.route) {
-                            PokemonListScreen(navController = navController)
+                            PokemonListScreen(onItemClickListener = { bgColor, pokeName ->
+                                navController.navigate(route = Screen.PokemonDetailScreen.route+"/${bgColor}"+"/${pokeName}")
+                            })
                         }
 
-                        composable(route = Screen.PokemonDetailScreen.route + "/${DOMINANT_COLOR}" + "/${POKEMON_NAME}",
+                        composable(
+                            route = "${Screen.PokemonDetailScreen.route}/{$DOMINANT_COLOR}/{$POKEMON_NAME}",
                             arguments = listOf(
-                                navArgument(name = DOMINANT_COLOR){
-                                    type= NavType.IntType
-                                },
-                                navArgument(name = POKEMON_NAME){
-                                    type= NavType.StringType
+                                navArgument(name = DOMINANT_COLOR) {
+                                    type = NavType.IntType
+                                })
+                        ) {
+                            val dominantColor = remember {
+                                val color = it.arguments?.getInt(DOMINANT_COLOR)
+                                color?.let { Color(it) } ?: Color.White
+                            }
+
+                            PokemonDetailScreen(
+                                dominantColor = dominantColor,
+                                backItemClick = {
+                                    navController.popBackStack()
                                 }
                             )
-                        ) {
-                            val dominantColor= remember {
-                                val color=it.arguments?.getInt(DOMINANT_COLOR)
-                                color?.let { Color(it) ?: Color.White }
-                            }
-                            val pokemonName = remember {
-                                val pokemonName=it.arguments?.getString(POKEMON_NAME)
-                            }
                         }
                     }
                 }
