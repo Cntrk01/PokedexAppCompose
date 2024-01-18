@@ -1,4 +1,4 @@
-package com.example.pokedexappcompose.presentation.pokemon_list
+package com.example.pokedexappcompose.presentation.pokemon_list.state
 
 import com.example.pokedexappcompose.data.PokemonListEntry
 

@@ -1,4 +1,4 @@
-package com.example.pokedexappcompose.presentation.pokemon_list
+package com.example.pokedexappcompose.presentation.pokemon_list.screen.pokemon_list_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -19,21 +19,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.example.pokedexappcompose.R
+import com.example.pokedexappcompose.presentation.pokemon_list.screen.pokemon_search_screen.PokemonSearch
 import com.example.pokedexappcompose.presentation.pokemon_list.background_image_color.PokemonEntry
 import com.example.pokedexappcompose.presentation.pokemon_list.viewmodel.PokemonListViewModel
 
 @Composable
 fun PokemonListScreen(
-    navController: NavController,
+    onItemClickListener : (Int,String)->Unit,
     viewModel: PokemonListViewModel = hiltViewModel()
 ) {
     Surface(
@@ -60,15 +60,18 @@ fun PokemonListScreen(
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            PokemonList(navController = navController)
+
+            PokemonList(onItemClickListener={bgColor,name->
+                onItemClickListener.invoke(bgColor,name)
+            })
         }
     }
 }
 
 @Composable
 fun PokemonList(
-    navController: NavController,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokemonListViewModel = hiltViewModel(),
+    onItemClickListener : (Int,String)->Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -90,10 +93,12 @@ fun PokemonList(
                     }
                     PokemonEntry(
                         entry = state.pokemonList[pokemonEntry],
-                        navController = navController,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        onItemClickListener = {bgColor,name->
+                            onItemClickListener.invoke(bgColor,name)
+                        }
                     )
                 }
             }

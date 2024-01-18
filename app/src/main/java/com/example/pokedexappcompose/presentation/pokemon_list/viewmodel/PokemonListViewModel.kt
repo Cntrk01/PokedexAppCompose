@@ -4,19 +4,17 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
 import com.example.pokedexappcompose.common.Constants.PAGE_SIZE
 import com.example.pokedexappcompose.data.use_case.pokemon_list.PokemonListUseCase
-import com.example.pokedexappcompose.presentation.pokemon_list.PokemonListState
+import com.example.pokedexappcompose.presentation.pokemon_list.state.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import com.example.pokedexappcompose.common.Response
 import com.example.pokedexappcompose.data.PokemonListEntry
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -30,8 +28,9 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
 
     private var currentPage = 0
     private val _state = MutableStateFlow(PokemonListState())
-    private val pokemonList = mutableStateListOf<PokemonListEntry>()
     val state: StateFlow<PokemonListState> = _state
+
+    private val pokemonList = mutableStateListOf<PokemonListEntry>()
 
     init {
         loadPokemonPaging()

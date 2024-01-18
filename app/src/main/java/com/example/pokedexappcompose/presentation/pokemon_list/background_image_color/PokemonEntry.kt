@@ -34,16 +34,16 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.example.pokedexappcompose.data.PokemonListEntry
-import com.example.pokedexappcompose.presentation.Screen
+import com.example.pokedexappcompose.Screen
 import com.example.pokedexappcompose.presentation.pokemon_list.viewmodel.PokemonListViewModel
 import com.example.pokedexappcompose.ui.theme.RobotoCondensed
 
 @Composable
 fun PokemonEntry(
     entry: PokemonListEntry,
-    navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokemonListViewModel = hiltViewModel(),
+    onItemClickListener : (Int,String)->Unit
 ) {
     val defaultDominantColor = MaterialTheme.colorScheme.surface
 
@@ -66,7 +66,7 @@ fun PokemonEntry(
                 )
             )
             .clickable {
-                navController.navigate(Screen.PokemonDetailScreen.route + "/${dominantColor.toArgb()}" + "/${entry.pokemonName}")
+               onItemClickListener.invoke(dominantColor.toArgb(),entry.pokemonName)
             }
     ) {
         Column {
