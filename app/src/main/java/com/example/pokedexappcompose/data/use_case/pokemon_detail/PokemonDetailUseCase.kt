@@ -14,8 +14,8 @@ class PokemonDetailUseCase @Inject constructor(private val pokemonRepository: Po
     operator fun invoke(pokemonName:String) : Flow<Response<Pokemon>> = flow{
         try {
             emit(Response.Loading())
-            val pokemonList=pokemonRepository.getPokemonInfo(pokemonName = pokemonName)
-            emit(Response.Success(pokemonList))
+            val pokemon=pokemonRepository.getPokemonInfo(pokemonName = pokemonName)
+            emit(Response.Success(pokemon))
         }catch (e:Exception){
             emit(Response.Error(message = "An unknown error occured."))
         }catch (e: HttpException){
