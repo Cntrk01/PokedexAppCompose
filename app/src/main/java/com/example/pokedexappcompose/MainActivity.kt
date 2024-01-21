@@ -28,8 +28,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PokedexAppComposeTheme {
+            PokedexAppComposeTheme{
                 val navController = rememberNavController()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = Screen.PokemonListScreen.route
                     ) {
+
                         composable(route = Screen.PokemonListScreen.route) {
                             PokemonListScreen(onItemClickListener = { bgColor, pokeName ->
                                 navController.navigate(route = Screen.PokemonDetailScreen.route+"/${bgColor}"+"/${pokeName}")
@@ -45,6 +47,8 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
+                            //yada şeklindede çalışıyor
+                            // route = "${Screen.PokemonDetailScreen.route}/{dominantColor}/{pokemonName}",
                             route = "${Screen.PokemonDetailScreen.route}/{$DOMINANT_COLOR}/{$POKEMON_NAME}",
                             arguments = listOf(
                                 navArgument(name = DOMINANT_COLOR) {
@@ -55,7 +59,8 @@ class MainActivity : ComponentActivity() {
                                 val color = it.arguments?.getInt(DOMINANT_COLOR)
                                 color?.let { Color(it) } ?: Color.White
                             }
-
+                            //window?.statusBarColor = getColor(R.color.black)
+                            //window.navigationBar=getColor(R.color.black) rengini de değişebiliriz.
                             PokemonDetailScreen(
                                 dominantColor = dominantColor,
                                 backItemClick = {

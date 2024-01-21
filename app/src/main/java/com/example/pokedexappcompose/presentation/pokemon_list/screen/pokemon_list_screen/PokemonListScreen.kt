@@ -78,16 +78,19 @@ fun PokemonList(
     val state by viewModel.state.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
+
         if (state.pokemonList.isNotEmpty()) {
+            //bu kodu lazy içerisinden buraya aldım.Kasma yapıyor gibiydi burada olunca daha akıcı görünüm kazandı uygulama
+            val itemCount = if (state.pokemonList.size % 2 == 0) {
+                state.pokemonList.size / 2
+            } else {
+                state.pokemonList.size / 2 + 1
+            }
+
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),
                 contentPadding = PaddingValues(16.dp)
             ) {
-                val itemCount = if (state.pokemonList.size % 2 == 0) {
-                    state.pokemonList.size / 2
-                } else {
-                    state.pokemonList.size / 2 + 1
-                }
 
                 items(itemCount) { pokemonEntry ->
                     if (pokemonEntry >= itemCount - 1 && !state.endReached && !state.isLoading && !state.isSearching) {
@@ -120,13 +123,15 @@ fun PokemonList(
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        viewModel.loadPokemonPaging()
-                    },
-                    modifier = Modifier.align(CenterHorizontally)
-                ) {
-                    Text(text = "Retry")
+                if (state.error != "Pokemon Is Not Found...") {
+                    Button(
+                        onClick = {
+                            viewModel.loadPokemonPaging()
+                        },
+                        modifier = Modifier.align(CenterHorizontally)
+                    ) {
+                        Text(text = "Retry")
+                    }
                 }
             }
         }

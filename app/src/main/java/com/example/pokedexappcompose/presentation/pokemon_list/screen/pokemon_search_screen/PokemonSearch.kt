@@ -18,18 +18,26 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.pokedexappcompose.presentation.pokemon_list.viewmodel.PokemonListViewModel
 
 @Composable
 fun PokemonSearch(
     modifier: Modifier = Modifier,
     hint: String = "",
-    onSearch: (String) -> Unit = {}
+    onSearch: (String) -> Unit = {},
+    pokemonListViewModel: PokemonListViewModel= hiltViewModel()
 ) {
     var text by remember {
         mutableStateOf("")
     }
     var isHintDisplayed by remember {
         mutableStateOf(hint != "")
+    }
+
+    if (pokemonListViewModel.state.value.lastQuery.isNotBlank()){
+        text=pokemonListViewModel.state.value.lastQuery
+        isHintDisplayed=false
     }
 
     Box(modifier = modifier) {

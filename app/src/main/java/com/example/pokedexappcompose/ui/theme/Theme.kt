@@ -33,36 +33,17 @@ private val LightColorPalette = lightColorScheme(
 )
 
 @Composable
-fun PokedexAppComposeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
-) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorPalette
-        else -> LightColorPalette
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            window?.statusBarColor =
-                colorScheme.surface.toArgb()
-
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
-                !darkTheme
-        }
+fun PokedexAppComposeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }

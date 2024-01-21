@@ -10,4 +10,5 @@ data class PokemonListState(
     var isSearching : Boolean =false,
     var isSearchStarting : Boolean =true,
     var cachedPokemonList : List<PokemonListEntry> = emptyList(),
+    var lastQuery : String=""
 )

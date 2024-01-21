@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.PokedexAppCompose" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.PokedexAppCompose" parent="android:Theme.Material.Light.NoActionBar" >
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

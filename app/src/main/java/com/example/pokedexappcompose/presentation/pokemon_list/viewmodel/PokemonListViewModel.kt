@@ -45,6 +45,12 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                 cachedPokemonList
             }
 
+            _state.update {
+                it.copy(
+                    lastQuery=query
+                )
+            }
+
             if (query.isEmpty()) {
                 _state.update { pokemonState ->
                     pokemonState.copy(
@@ -76,7 +82,8 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                         pokemonList = emptyList(),
                         isSearching = false,
                         isLoading=false,
-                        error = "Pokemon Is Not Found..."
+                        error = "Pokemon Is Not Found...",
+                        lastQuery = ""
                     )
                 }
             }else{
@@ -85,7 +92,8 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                         pokemonList = result,
                         isSearching = true,
                         isLoading=false,
-                        error = ""
+                        error = "",
+
                     )
                 }
             }
@@ -109,7 +117,8 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                error = response.message.toString()
+                                error = response.message.toString(),
+                                pokemonList = emptyList()
                             )
                         }
                     }
