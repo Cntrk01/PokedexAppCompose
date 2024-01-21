@@ -58,6 +58,7 @@ Detay sayfasına da giderken pokemonun isimini tekrar apiye path olarak istek at
 
 
 
+
 ## Video
 
 
@@ -66,14 +67,12 @@ https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/074181d6-5121-47ee-
 
 
 
+
 ## Çıktılar
 
-![Ekran görüntüsü 2024-01-21 200020](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/11a3a184-26f2-47c4-a0ad-53d2488b956d) ![Ekran görüntüsü 2024-01-21 200009](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/39cc6a2d-b189-428e-9071-ec07b5421333)
+![Ekran görüntüsü 2024-01-21 200020](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/11a3a184-26f2-47c4-a0ad-53d2488b956d)   ![Ekran görüntüsü 2024-01-21 200009](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/39cc6a2d-b189-428e-9071-ec07b5421333)
 
 
-![Ekran görüntüsü 2024-01-21 195950](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/86613191-bbe3-4643-9442-db51d9b75b24)
-
-
-![Ekran görüntüsü 2024-01-21 200026](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/58f22c1b-ba80-4318-ac56-8a518633743a)
+![Ekran görüntüsü 2024-01-21 195950](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/86613191-bbe3-4643-9442-db51d9b75b24)    ![Ekran görüntüsü 2024-01-21 200026](https://github.com/Cntrk01/PokedexAppCompose/assets/98031686/58f22c1b-ba80-4318-ac56-8a518633743a)
 
 
