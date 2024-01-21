@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
@@ -55,6 +56,7 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                 }
                 return@launch
             }
+
             val result = listToSearch.filter {
                 it.pokemonName.contains(query.trim(), ignoreCase = true) ||
                         it.number.toString() == query.trim()
@@ -95,13 +97,22 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
             .collectLatest { response ->
                 when (response) {
                     is Response.Loading -> {
-                        _state.value.isLoading = true
+                        _state.update {
+                            it.copy(
+                                isLoading = true,
+                                error = ""
+                            )
+                        }
                     }
 
                     is Response.Error -> {
-                        _state.value.error = response.message.toString()
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = response.message.toString()
+                            )
+                        }
                     }
-
                     else -> {
                         _state.value.endReached =
                             currentPage * PAGE_SIZE >= response.data!!.count
@@ -125,11 +136,13 @@ class PokemonListViewModel @Inject constructor(private val pokemonListUseCase: P
                         }
                         currentPage++
                         pokemonList += pokemonEntries
-                        _state.value = PokemonListState(
-                            pokemonList = pokemonList,
-                            isLoading = false,
-                            error = ""
-                        )
+                        _state.update {
+                            it.copy(
+                                pokemonList = pokemonList,
+                                isLoading = false,
+                                error = ""
+                            )
+                        }
                     }
                 }
             }

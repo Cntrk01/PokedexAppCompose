@@ -59,7 +59,6 @@ class PokemonDetailViewModel @Inject constructor(private val pokemonDetailUseCas
                                 pokemonDetail = response.data
                             )
                         }
-                        println(response.data)
                     }
                 }
             }
