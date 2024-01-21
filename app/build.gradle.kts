@@ -88,8 +88,6 @@ dependencies {
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     // Coroutines
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -106,6 +104,5 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
-
 
 }
