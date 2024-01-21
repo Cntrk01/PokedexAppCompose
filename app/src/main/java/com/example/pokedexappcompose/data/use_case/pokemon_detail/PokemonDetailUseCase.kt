@@ -4,6 +4,7 @@ import android.net.http.HttpException
 import com.example.pokedexappcompose.common.Response
 import com.example.pokedexappcompose.data.repository.PokemonRepositoryImpl
 import com.example.pokedexappcompose.data.response.Pokemon
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
@@ -22,6 +23,8 @@ class PokemonDetailUseCase @Inject constructor(private val pokemonRepository: Po
             emit(Response.Error(e.localizedMessage ?: "An unexpected error occured"))
         }catch (e: IOException){
             emit(Response.Error("Couldn't reach server.Check your internet connection.."))
+        }catch (e: TimeoutCancellationException) {
+            emit(Response.Error(message = "Operation timed out !"))
         }
     }
 }
