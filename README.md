@@ -16,6 +16,7 @@ Detay sayfasına da giderken pokemonun isimini tekrar apiye path olarak istek at
 
 
 
+
 -Retrofit
 
 
