@@ -341,7 +341,6 @@ private fun PokemonStat(
     statMaxValue: Int,
     statColor: Color,
     height: Dp = 28.dp,
-    animDuration: Int = 1000,
     animDelay: Int = 0
 ) {
     var animationPlayed by remember {
@@ -354,7 +353,7 @@ private fun PokemonStat(
     //i değeri 0,1,2,3,4 şeklinde bize değer getiriyor
     val curPercent = animateFloatAsState(
         label = "", animationSpec = tween(
-            animDuration,
+            1000,
             animDelay
         ), targetValue =
         if (animationPlayed) {

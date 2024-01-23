@@ -29,12 +29,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.example.pokedexappcompose.data.PokemonListEntry
-import com.example.pokedexappcompose.Screen
 import com.example.pokedexappcompose.presentation.pokemon_list.viewmodel.PokemonListViewModel
 import com.example.pokedexappcompose.ui.theme.RobotoCondensed
 

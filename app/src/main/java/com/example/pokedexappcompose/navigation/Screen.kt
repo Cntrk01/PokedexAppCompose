@@ -1,4 +1,4 @@
-package com.example.pokedexappcompose
+package com.example.pokedexappcompose.navigation
 
 sealed class Screen(val route:String){
     object PokemonListScreen : Screen("pokemon_list_screen")
